@@ -1,30 +1,26 @@
 import React, { FC } from "react";
-import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
 
-import { ParkingArea } from "../components/ParkingArea";
-import { Gap } from "../components/Gap";
-import { Landmark } from "../components/Landmark";
-import { Trail } from "../components/Trail";
-import { Transit } from "../components/Transit";
+import { ParkingArea } from "./components/ParkingArea";
+import { Gap } from "./components/Gap";
+import { Landmark } from "./components/Landmark";
+import { Trail } from "./components/Trail";
+import { Transit } from "./components/Transit";
 
-import StonyPoint from "../images/stony-point.jpg";
-import ColdSpring1 from "../images/cold-spring-1.jpg";
-import ColdSpring2 from "../images/cold-spring-2.jpg";
-import ColdSpring3 from "../images/cold-spring-3.jpg";
-import ColdSpring4 from "../images/cold-spring-4.jpg";
-import Breakneck1 from "../images/breakneck-1.jpg";
-import Breakneck2 from "../images/breakneck-2.jpg";
-import Breakneck3 from "../images/breakneck-3.jpg";
-import Dockside from "../images/dockside.jpg";
-import CornishEstate from "../images/cornish-estate.jpg";
-import BullHill from "../images/bull-hill.jpg";
-import Beacon1 from "../images/beacon-1.jpg";
+import StonyPoint from "./images/stony-point.jpg";
+import ColdSpring1 from "./images/cold-spring-1.jpg";
+import ColdSpring2 from "./images/cold-spring-2.jpg";
+import ColdSpring3 from "./images/cold-spring-3.jpg";
+import ColdSpring4 from "./images/cold-spring-4.jpg";
+import Breakneck1 from "./images/breakneck-1.jpg";
+import Breakneck2 from "./images/breakneck-2.jpg";
+import Breakneck3 from "./images/breakneck-3.jpg";
+import Dockside from "./images/dockside.jpg";
+import CornishEstate from "./images/cornish-estate.jpg";
+import BullHill from "./images/bull-hill.jpg";
+import Beacon1 from "./images/beacon-1.jpg";
 
-const HomePage: FC = () => {
+export const Parking: FC = () => {
   return (
     <>
       <Grid container columnSpacing={0} sx={{ bgcolor: "#006600", py: 1 }}>
@@ -81,9 +77,9 @@ const HomePage: FC = () => {
         <Gap />
         <Gap />
         <Landmark name='Breakneck Ridge' background={Breakneck1} />
-        <Trail size={1} water={true} />
+        <Trail size={1} />
         <Landmark name='Little Stony Point' background={StonyPoint} />
-        <Trail size={1} water={true} />
+        <Trail size={1} />
         <Landmark name='Dockside' background={Dockside} roadRight />
         <ParkingArea name='Cold Spring MNR' roadLeft />
         <Gap />
@@ -91,5 +87,3 @@ const HomePage: FC = () => {
     </>
   );
 };
-
-export default HomePage;
