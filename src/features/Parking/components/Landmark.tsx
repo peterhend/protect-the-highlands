@@ -7,11 +7,16 @@ import CardHeader from "@mui/material/CardHeader";
 interface LandmarkProps {
   name: string;
   background?: string;
-  roadLeft?: boolean
-  roadRight?: boolean
+  roadLeft?: boolean;
+  roadRight?: boolean;
 }
 
-export const Landmark: FC<LandmarkProps> = ({ name, background, roadLeft, roadRight }) => {
+export const Landmark: FC<LandmarkProps> = ({
+  name,
+  background,
+  roadLeft,
+  roadRight,
+}) => {
   return (
     <Grid item xs={1}>
       <Box
@@ -21,20 +26,15 @@ export const Landmark: FC<LandmarkProps> = ({ name, background, roadLeft, roadRi
           backgroundSize: "cover",
           bgcolor: "transparent",
           height: 140,
-          ml: roadLeft? 0 : 1,
-          mr: roadRight? 0 : 1,
+          ml: roadLeft ? 0 : 1,
+          mr: roadRight ? 0 : 1,
           borderLeft: roadLeft ? "8px solid #333" : null,
-          borderRight: roadRight? "8px solid #333" : null,
+          borderRight: roadRight ? "8px solid #333" : null,
         }}
       >
-        <CardHeader
-          title={
-            <Typography sx={{ color: background ? "white" : null }}>
-              {name}
-            </Typography>
-          }
-          sx={{ mt: 2 }}
-        />
+        <Typography sx={{ color: background ? "white" : null, px: 1, pt: 4 }}>
+          {name}
+        </Typography>
       </Box>
     </Grid>
   );

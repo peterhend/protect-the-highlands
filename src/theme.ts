@@ -26,9 +26,8 @@ export let theme = createTheme({
   typography: {
     allVariants: {
       fontFamily: "Arial, Helvetica, sans-serif",
-      fontSize: 16,
+      fontSize: 14,
       letterSpacing: 0,
-      color: "purple",
     },
   },
 });
@@ -45,26 +44,6 @@ theme = createTheme(theme, {
         root: {
           paddingTop: "0 !important",
           paddingBottom: "0 !important",
-        },
-      },
-    },
-    MuiCard: {
-      styleOverrides: {
-        root: {
-          // marginLeft: 8,
-          // marginRight: 8,
-          borderLeft: "8px solid transparent",
-          borderRight: "8px solid transparent",
-          borderRadius: 0,
-          height: 140,
-        },
-      },
-    },
-    MuiCardHeader: {
-      styleOverrides: {
-        root: {
-          padding: 8,
-          marginTop: "0 !important",
         },
       },
     },
