@@ -29,7 +29,7 @@ export const ParkingGrid: FC = () => {
         <ParkingArea id='NEW' />
         <Gap />
         <ParkingArea id='BNR-NB' />
-        <Landmark name='Breakneck Ridge' background={Breakneck3} />
+        <Landmark name='Breakneck Ridge' background={Breakneck2} />
         <Landmark name='Cornish Estate' background={CornishEstate} />
         <ParkingArea id='WBN' />
         <Landmark name='Bull Hill' background={BullHill} />
@@ -48,7 +48,7 @@ export const ParkingGrid: FC = () => {
         <ParkingArea id='DMN' />
         <Trail size={1} bottom={true} />
         <ParkingArea id='BNR-SB' />
-        <Landmark name='Breakneck Ridge' background={Breakneck2} />
+        <Landmark name='Breakneck Ridge' background={Breakneck1} />
         <ParkingArea id='9D-SB' />
         <Gap />
         <Gap />
@@ -75,9 +75,10 @@ export const ParkingGrid: FC = () => {
         <Gap />
         <Gap />
         <Gap />
-        <Gap />
-        <Landmark name='Breakneck Ridge' background={Breakneck1} />
-        <Trail size={1} />
+        {/* <Gap /> */}
+        {/* <Landmark name='Breakneck Ridge' background={Breakneck1} /> */}
+        <Trail size={1} half />
+        <Trail size={2} />
         <Landmark name='Little Stony Point' background={StonyPoint} />
         <Trail size={1} />
         <Landmark name='Dockside' background={Dockside} roadRight />
