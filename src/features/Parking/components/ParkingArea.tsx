@@ -23,7 +23,7 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
   roadRight,
 }) => {
   const state = useSettingsState();
-  const details = state.parking.find((area) => area.id === id);
+  const details = state.parkingAreas.find((area) => area.id === id);
 
   if (!details) {
     return (
@@ -33,13 +33,7 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
     );
   }
 
-  const totalSpaces = details.spaces[state.timeframe];
-  const spacesAvailable =
-    (details.spaces.available || 0) > 0
-      ? details.spaces.available
-      : totalSpaces
-      ? "FULL"
-      : 0;
+  const totalSpaces = details.spaces[state.options.timeframe];
 
   return (
     <Grid item xs={1}>
@@ -59,7 +53,7 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
           }}
         >
           <CardHeader
-            title={<Typography>{details?.id}</Typography>}
+            title={<Typography sx={{textTransform: 'uppercase'}}>{details?.cost}</Typography>}
             subheader={
               <Typography sx={{ fontSize: 12 }}>{details?.name}</Typography>
             }
@@ -72,9 +66,14 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
                 }}
               />
             }
-            sx={{ height: "40%", p: 0.5, "& .MuiCardHeader-action": { m: 0 } }}
+            sx={{
+              height: "50%",
+              p: 0.5,
+              alignItems: "start",
+              "& .MuiCardHeader-action": { m: 0 },
+            }}
           />
-          <CardContent sx={{ p: "8px !important" }}>
+          <CardContent sx={{ p: "4px !important" }}>
             <Stack
               sx={{
                 border: "1px solid blue",
@@ -82,8 +81,12 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
                 borderRadius: 1,
               }}
             >
-              <Typography>Spaces: {details.spaces[state.timeframe]}</Typography>
-              <Typography>Available: {spacesAvailable}</Typography>
+              <Typography sx={{ fontSize: 12 }}>
+                Spaces: {details.spaces[state.options.timeframe]}
+              </Typography>
+              <Typography sx={{ fontSize: 12 }}>
+                Available: {details.spaces.available}
+              </Typography>
             </Stack>
           </CardContent>
         </Card>

@@ -4,6 +4,7 @@ import { parkingData } from "../data";
 export interface ParkingArea {
   id: string;
   name: string;
+  cost: "$10-20" | "Free";
   spaces: {
     current: number;
     planned: number;
@@ -11,22 +12,44 @@ export interface ParkingArea {
   };
 }
 
-interface State {
-  parking: ParkingArea[];
+interface VisitorInfo {
+  totalVisitors: number;
+  percentByCar: number;
+  vehicleOccupancy: number;
+  turnoverRate: number;
+}
+
+interface Options {
   timeframe: "current" | "planned";
+  includeColdSpringMNR: boolean;
+  includeBoscobel: boolean;
+  exclude: string[];
+}
+
+interface State {
+  parkingAreas: ParkingArea[];
   totalSpaces: number;
-  totalAvailable: number;
   spacesNeeded: number;
+  visitorInfo: VisitorInfo;
+  options: Options;
 }
 
 const initialState: State = {
-  parking: parkingData,
-  timeframe: "current",
-  totalSpaces: parkingData.reduce((acc, area) => {
-    return acc + area.spaces.current;
-  }, 0),
-  totalAvailable: 0,
+  parkingAreas: parkingData,
+  totalSpaces: 0,
   spacesNeeded: 0,
+  visitorInfo: {
+    totalVisitors: 0,
+    percentByCar: 0,
+    vehicleOccupancy: 0,
+    turnoverRate: 0,
+  },
+  options: {
+    timeframe: "current",
+    includeBoscobel: true,
+    includeColdSpringMNR: false,
+    exclude: ["BCN-MNR", "CS-MNR"],
+  },
 };
 
 const StateContext = createContext<State>(null as unknown as State);
@@ -37,44 +60,98 @@ export const useSettingsDispatch = () => useContext(DispatchContext);
 
 type IDispatch = React.Dispatch<Actions>;
 
-// TODO rename `SettingsActions` to something meaningful and unique
 export enum SettingsActions {
-  setTimeframe,
-  setSpacesNeeded,
+  initialize,
+  setOptions,
+  setVisitorInfo,
 }
 
-interface SetTimeframe {
-  type: SettingsActions.setTimeframe;
-  payload: "current" | "planned";
+interface Initialize {
+  type: SettingsActions.initialize;
+  payload: VisitorInfo;
 }
 
-interface SetSpacesNeeded {
-  type: SettingsActions.setSpacesNeeded;
-  payload: number;
+interface SetOptions {
+  type: SettingsActions.setOptions;
+  payload: Options;
 }
 
-type Actions = SetTimeframe | SetSpacesNeeded;
+interface SetVisitorInfo {
+  type: SettingsActions.setVisitorInfo;
+  payload: VisitorInfo;
+}
+
+type Actions = Initialize | SetVisitorInfo | SetOptions;
 
 const reducer = (state: State, action: Actions): State => {
   switch (action.type) {
-    case SettingsActions.setSpacesNeeded: {
-      const spacesNeeded = action.payload;
-      const parking = updateSpaces(spacesNeeded, state);
+    case SettingsActions.initialize: {
+      const visitorInfo = action.payload;
+
+      const totalSpaces = state.parkingAreas
+        .filter((area) => !state.options.exclude.includes(area.id))
+        .reduce((acc, area) => {
+          return acc + area.spaces[state.options.timeframe];
+        }, 0);
+
+      const spacesNeeded = Math.round(
+        (visitorInfo.totalVisitors * visitorInfo.percentByCar) /
+          100 /
+          visitorInfo.vehicleOccupancy /
+          visitorInfo.turnoverRate
+      );
+
+      const parkingAreasUpdated = updateSpaces(
+        state.parkingAreas,
+        spacesNeeded,
+        totalSpaces,
+        state.options
+      );
+
       return {
         ...state,
+        visitorInfo: visitorInfo,
+        totalSpaces: totalSpaces,
         spacesNeeded: spacesNeeded,
-        parking: parking,
+        parkingAreas: parkingAreasUpdated,
       };
     }
 
-    case SettingsActions.setTimeframe: {
-      const timeframe = action.payload;
+    case SettingsActions.setOptions: {
+      const options = action.payload;
+      const totalSpaces = state.parkingAreas.filter((area) => !options.exclude.includes(area.id)).reduce((acc, area) => {
+        return acc + area.spaces[options.timeframe];
+      }, 0);
+      const parking = updateSpaces(
+        state.parkingAreas,
+        state.spacesNeeded,
+        totalSpaces,
+        options
+      );
       return {
         ...state,
-        timeframe: timeframe,
-        totalSpaces: state.parking.reduce((acc, area) => {
-          return acc + area.spaces[timeframe];
-        }, 0),
+        options: action.payload,
+        totalSpaces: totalSpaces,
+        parkingAreas: parking,
+      };
+    }
+
+    case SettingsActions.setVisitorInfo: {
+      const { totalVisitors, percentByCar, vehicleOccupancy, turnoverRate } =
+        action.payload;
+      const spacesNeeded =
+        (totalVisitors * percentByCar) / 100 / vehicleOccupancy / turnoverRate;
+      const parking = updateSpaces(
+        state.parkingAreas,
+        spacesNeeded,
+        state.totalSpaces,
+        state.options
+      );
+      return {
+        ...state,
+        visitorInfo: action.payload,
+        spacesNeeded: Math.round(spacesNeeded),
+        parkingAreas: parking,
       };
     }
 
@@ -99,19 +176,26 @@ export const SettingsProvider = ({
   );
 };
 
-const updateSpaces = (spacesNeeded: number, state: State) => {
-  const parking = state.parking.map((area) => {
-    const fractionOfTotal = area.spaces[state.timeframe] / state.totalSpaces;
+const updateSpaces = (
+  parkingAreas: ParkingArea[],
+  spacesNeeded: number,
+  totalSpaces: number,
+  options: Options
+) => {
+  const parking = parkingAreas.map((area) => {
+    const fractionOfTotal = area.spaces[options.timeframe] / totalSpaces;
     return {
       ...area,
       spaces: {
         ...area.spaces,
-        available: Math.max(
-          Math.round(
-            area.spaces[state.timeframe] - fractionOfTotal * spacesNeeded
-          ),
-          0
-        ),
+        available: options.exclude.includes(area.id)
+          ? 0
+          : Math.max(
+              Math.round(
+                area.spaces[options.timeframe] - fractionOfTotal * spacesNeeded
+              ),
+              0
+            ),
       },
     };
   });

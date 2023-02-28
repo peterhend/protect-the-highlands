@@ -10,55 +10,46 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-import { Controls } from "./Controls";
+import { VisitorInfo } from "./VisitorInfo";
+import { Options } from "./Options";
 
-import {
-  useSettingsState,
-  useSettingsDispatch,
-  SettingsActions,
-} from "../../providers/settings";
+import { useSettingsState } from "../../providers/settings";
 
 export const Dashboard: FC = () => {
   const state = useSettingsState();
-  const dispatch = useSettingsDispatch();
 
-  const handleChange = (value: string) => {
-    dispatch({
-      type: SettingsActions.setTimeframe,
-      payload: value as "current" | "planned",
-    });
-  };
+  const { totalSpaces, spacesNeeded } = state;
+
   return (
-    <Grid container>
+    <Grid container spacing={1} sx={{ mt: 1 }}>
       <Grid item xs={3}>
-        <RadioGroup
-          row
-          value={state.timeframe}
-          onChange={(e) => handleChange(e.currentTarget.value)}
-        >
-          <FormControlLabel
-            value='current'
-            control={<Radio />}
-            label='Show current parking'
-          />
-          <FormControlLabel
-            value='planned'
-            control={<Radio />}
-            label='Show planned parking'
-          />
-        </RadioGroup>
+        <Options />
       </Grid>
       <Grid item xs={3}>
-        <Controls />
+        <VisitorInfo />
       </Grid>
-      <Grid item xs={1}></Grid>
       <Grid item xs={3}>
         <Stack
           sx={{ border: "1px solid lightgray", p: 1, borderRadius: 1, mt: 1 }}
         >
-          <Typography>Total spaces: {state.totalSpaces}</Typography>
-          <Typography>Spaces available: {state.totalAvailable}</Typography>
-          <Typography>Spaces needed: {state.spacesNeeded}</Typography>
+          <Typography>Total spaces: {totalSpaces}</Typography>
+          <Typography>Spaces needed: {spacesNeeded}</Typography>
+          <Typography>
+            Spaces open: {totalSpaces - spacesNeeded}
+          </Typography>
+        </Stack>
+      </Grid>
+      <Grid item xs={3}>
+        <Stack
+          sx={{ border: "1px solid lightgray", p: 1, borderRadius: 1, mt: 1 }}
+        >
+          <Typography sx={{fontWeight: 600}}>Reference data (HHFT numbers)</Typography>
+          <Typography>Peak daily visitors: 3,099</Typography>
+          <Typography>Percentage by car: 66%</Typography>
+          <Typography>Vehicle occupancy: 2.5</Typography>
+          <Typography>
+            Space turnover per day: 2.1 (doubtful)
+          </Typography>
         </Stack>
       </Grid>
     </Grid>

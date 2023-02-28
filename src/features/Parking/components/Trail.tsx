@@ -17,8 +17,8 @@ export const Trail: FC<TrailProps> = ({ size, bottom }) => {
           sx={{
             mx: -1,
             my: 1,
-            borderTop: '1px dashed gray',
-            borderBottom: '1px dashed gray',
+            borderTop: '1px solid lightgray',
+            borderBottom: '1px solid lightgray',
             textAlign: "center",
             height: 24,
             bgcolor: 'white'

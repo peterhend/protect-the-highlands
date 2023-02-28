@@ -43,7 +43,7 @@ export const ParkingGrid: FC = () => {
         <Transit size={2} label='Route 9D' lights='start' />
       </Grid>
       <Grid container columnSpacing={0} sx={{ bgcolor: "#ecf9f2", py: 1 }}>
-        <ParkingArea id='BCN-MN' roadLeft />
+        <ParkingArea id='BCN-MNR' roadLeft />
         <ParkingArea id='NCH' />
         <ParkingArea id='DMN' />
         <Trail size={1} bottom={true} />
@@ -81,7 +81,7 @@ export const ParkingGrid: FC = () => {
         <Landmark name='Little Stony Point' background={StonyPoint} />
         <Trail size={1} />
         <Landmark name='Dockside' background={Dockside} roadRight />
-        <ParkingArea id='CS-MN' roadLeft />
+        <ParkingArea id='CS-MNR' roadLeft />
         <Gap />
       </Grid>
     </>

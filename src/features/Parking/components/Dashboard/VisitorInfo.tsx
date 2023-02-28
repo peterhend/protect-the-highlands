@@ -16,37 +16,17 @@ import {
   SettingsActions,
 } from "../../providers/settings";
 
-export const Controls: FC = () => {
+export const VisitorInfo: FC = () => {
   const state = useSettingsState();
   const dispatch = useSettingsDispatch();
-
-  const [settings, setSettings] = useState({
-    totalVisitors: 500,
-    percentByCar: 50,
-    vehicleOccupancy: 2.5,
-    turnoverRate: 1.5,
-  });
-
-  useEffect(() => {
-    const spacesNeeded =
-      (settings.totalVisitors * settings.percentByCar) /
-      100 /
-      settings.vehicleOccupancy /
-      settings.turnoverRate;
-
-    dispatch({
-      type: SettingsActions.setSpacesNeeded,
-      payload: Math.round(spacesNeeded),
-    });
-  }, [settings]);
 
   const handleTotalVisitorsChanged = (
     _event: Event,
     value: number | number[]
   ) => {
-    setSettings({
-      ...settings,
-      totalVisitors: value as number,
+    dispatch({
+      type: SettingsActions.setVisitorInfo,
+      payload: { ...state.visitorInfo, totalVisitors: value as number },
     });
   };
 
@@ -54,9 +34,9 @@ export const Controls: FC = () => {
     _event: Event,
     value: number | number[]
   ) => {
-    setSettings({
-      ...settings,
-      percentByCar: value as number,
+    dispatch({
+      type: SettingsActions.setVisitorInfo,
+      payload: { ...state.visitorInfo, percentByCar: value as number },
     });
   };
 
@@ -64,9 +44,9 @@ export const Controls: FC = () => {
     _event: Event,
     value: number | number[]
   ) => {
-    setSettings({
-      ...settings,
-      vehicleOccupancy: value as number,
+    dispatch({
+      type: SettingsActions.setVisitorInfo,
+      payload: { ...state.visitorInfo, vehicleOccupancy: value as number },
     });
   };
 
@@ -74,9 +54,9 @@ export const Controls: FC = () => {
     _event: Event,
     value: number | number[]
   ) => {
-    setSettings({
-      ...settings,
-      turnoverRate: value as number,
+    dispatch({
+      type: SettingsActions.setVisitorInfo,
+      payload: { ...state.visitorInfo, turnoverRate: value as number },
     });
   };
 
@@ -100,14 +80,14 @@ export const Controls: FC = () => {
           min={0}
           max={10000}
           step={100}
-          value={settings.totalVisitors}
+          value={state.visitorInfo.totalVisitors}
           aria-label='Small'
           valueLabelDisplay='auto'
           onChange={handleTotalVisitorsChanged}
         />
       </Grid>
       <Grid item xs={2}>
-        <Typography sx={{ ml: 1 }}>{settings.totalVisitors}</Typography>
+        <Typography sx={{ ml: 1 }}>{state.visitorInfo.totalVisitors}</Typography>
       </Grid>
       <Grid item xs={4}>
         <Typography>% by car:</Typography>
@@ -117,14 +97,14 @@ export const Controls: FC = () => {
           size='small'
           min={0}
           max={100}
-          defaultValue={50}
+          value={state.visitorInfo.percentByCar}
           aria-label='Small'
           valueLabelDisplay='auto'
           onChange={handlePercentByCarChanged}
         />
       </Grid>
       <Grid item xs={2}>
-        <Typography sx={{ ml: 1 }}>{settings.percentByCar}%</Typography>
+        <Typography sx={{ ml: 1 }}>{state.visitorInfo.percentByCar}%</Typography>
       </Grid>
       <Grid item xs={4}>
         <Typography>Vehicle occupancy:</Typography>
@@ -134,7 +114,7 @@ export const Controls: FC = () => {
           size='small'
           min={1}
           max={4}
-          defaultValue={2.5}
+          value={state.visitorInfo.vehicleOccupancy}
           step={0.1}
           aria-label='Small'
           valueLabelDisplay='auto'
@@ -142,7 +122,7 @@ export const Controls: FC = () => {
         />
       </Grid>
       <Grid item xs={2}>
-        <Typography sx={{ ml: 1 }}>{settings.vehicleOccupancy}</Typography>
+        <Typography sx={{ ml: 1 }}>{state.visitorInfo.vehicleOccupancy}</Typography>
       </Grid>
       <Grid item xs={4}>
         <Typography>Turnover rate:</Typography>
@@ -151,8 +131,8 @@ export const Controls: FC = () => {
         <Slider
           size='small'
           min={1}
-          max={2}
-          defaultValue={1.5}
+          max={2.1}
+          value={state.visitorInfo.turnoverRate}
           step={0.1}
           aria-label='Small'
           valueLabelDisplay='auto'
@@ -160,7 +140,7 @@ export const Controls: FC = () => {
         />
       </Grid>
       <Grid item xs={2}>
-        <Typography sx={{ ml: 1 }}>{settings.turnoverRate}</Typography>
+        <Typography sx={{ ml: 1 }}>{state.visitorInfo.turnoverRate}</Typography>
       </Grid>
     </Grid>
   );
