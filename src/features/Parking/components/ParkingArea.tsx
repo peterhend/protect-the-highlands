@@ -91,11 +91,10 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
           <CardContent sx={{ p: "4px !important" }}>
             <Stack
               sx={{
-                border: "1px solid blue",
                 p: 0.5,
                 borderRadius: 1,
-                bgcolor: details.spaces.available ? "white" : "red",
-                color: details.spaces.available ? "black" : "white",
+                bgcolor: details.spaces.available ? "green" : "red",
+                color: details.spaces.available ? "white" : "white",
                 display: details.id === "BCN-MNR" ? "none" : "block",
               }}
             >
