@@ -45,11 +45,11 @@ export const ParkingGrid: FC = () => {
       <Grid container columnSpacing={0} sx={{ bgcolor: "#ecf9f2", py: 1 }}>
         <ParkingArea id='BCN-MNR' roadLeft />
         <ParkingArea id='NCH' />
-        <ParkingArea id='DMN' />
+        <ParkingArea id='DMNR' />
         <Trail size={1} bottom={true} />
         <ParkingArea id='BNR-SB' />
         <Landmark name='Breakneck Ridge' background={Breakneck1} />
-        <ParkingArea id='9D-SB' />
+        <ParkingArea id='LSP' />
         <Gap />
         <Gap />
         <Landmark

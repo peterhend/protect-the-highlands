@@ -47,7 +47,7 @@ export const parkingData: ParkingArea[] = [
     }
   },
   {
-    id: 'DMN',
+    id: 'DMNR',
     name: 'Dutchess Manor',
     cost: '$10-20',
     spaces: {
@@ -65,8 +65,8 @@ export const parkingData: ParkingArea[] = [
     }
   },
   {
-    id: '9D-SB',
-    name: '9D Southbound',
+    id: 'LSP',
+    name: 'Little Stony Point',
     cost: '$10-20',
     spaces: {
       current: 27,

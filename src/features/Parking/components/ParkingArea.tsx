@@ -10,6 +10,7 @@ import CardActions from "@mui/material/CardActions";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
 
 import { useSettingsState } from "../providers/settings";
+import { Trail } from "./Trail";
 
 interface ParkingAreaProps {
   id: string;
@@ -34,6 +35,10 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
   }
 
   const totalSpaces = details.spaces[state.options.timeframe];
+
+  if (state.options.timeframe === 'current' && ['NCH', 'DMNR'].includes(details.id)) {
+    return <Trail size={1} bottom />
+  }
 
   return (
     <Grid
