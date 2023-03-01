@@ -36,7 +36,14 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
   const totalSpaces = details.spaces[state.options.timeframe];
 
   return (
-    <Grid item xs={1}>
+    <Grid
+      item
+      xs={1}
+      sx={{
+        visibility:
+          totalSpaces || details.id === "BCN-MNR" ? "visible" : "hidden",
+      }}
+    >
       <Box
         sx={{
           height: 140,
@@ -49,11 +56,14 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
         <Card
           sx={{
             height: 140,
-            bgcolor: totalSpaces > 0 ? "white" : "#ffe6e6",
           }}
         >
           <CardHeader
-            title={<Typography sx={{textTransform: 'uppercase'}}>{details?.cost}</Typography>}
+            title={
+              <Typography sx={{ textTransform: "uppercase" }}>
+                {details?.cost}
+              </Typography>
+            }
             subheader={
               <Typography sx={{ fontSize: 12 }}>{details?.name}</Typography>
             }
@@ -79,6 +89,9 @@ export const ParkingArea: FC<ParkingAreaProps> = ({
                 border: "1px solid blue",
                 p: 0.5,
                 borderRadius: 1,
+                bgcolor: details.spaces.available ? "white" : "red",
+                color: details.spaces.available ? "black" : "white",
+                display: details.id === "BCN-MNR" ? "none" : "block",
               }}
             >
               <Typography sx={{ fontSize: 12 }}>
