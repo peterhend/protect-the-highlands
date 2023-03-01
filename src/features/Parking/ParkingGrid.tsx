@@ -49,8 +49,8 @@ export const ParkingGrid: FC = () => {
         <Trail size={1} bottom={true} />
         <ParkingArea id='BNR-SB' />
         <Landmark name='Breakneck Ridge' background={Breakneck1} />
-        <ParkingArea id='LSP' />
         <Gap />
+        <ParkingArea id='LSP' />
         <Gap />
         <Landmark
           name='Downtown Cold Spring'
